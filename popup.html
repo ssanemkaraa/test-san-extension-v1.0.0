@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 400px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+    }
+    h2 {
+      margin-top: 0;
+      color: #667eea;
+      font-size: 20px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #333;
+      font-size: 14px;
+    }
+    select, input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    input[type="password"], input[type="text"] {
+      font-family: monospace;
+    }
+    .provider-info {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      line-height: 1.5;
+    }
+    .provider-info a {
+      color: #667eea;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .provider-info a:hover {
+      text-decoration: underline;
+    }
+    .provider-info strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #333;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .status {
+      margin-top: 12px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .info {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .auto-save-indicator {
+      font-size: 11px;
+      color: #666;
+      margin-top: 4px;
+      font-style: italic;
+    }
+    .action-btn {
+      width: 100%;
+      padding: 12px;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      transition: opacity 0.3s;
+    }
+    .action-btn:hover {
+      opacity: 0.9;
+    }
+    .action-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    #analysisResults {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    #analysisResults h4 {
+      margin-top: 0;
+      color: #667eea;
+      font-size: 14px;
+    }
+    #analysisResults ul {
+      margin: 8px 0;
+      padding-left: 20px;
+    }
+    #analysisResults li {
+      margin: 4px 0;
+    }
+    hr {
+      margin: 20px 0;
+      border: none;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h2>Test-San Assistant</h2>
+  
+  <div class="form-group">
+    <label for="aiProvider">AI Provider:</label>
+    <select id="aiProvider">
+      <option value="groq">Groq (Ücretsiz - Önerilen)</option>
+      <option value="huggingface">Hugging Face (Ücretsiz)</option>
+      <option value="gemini">Google Gemini (Ücretsiz)</option>
+      <option value="together">Together AI (Ücretsiz Tier)</option>
+      <option value="openai">OpenAI (Ücretli)</option>
+      <option value="ollama">Ollama (Local - Ücretsiz)</option>
+    </select>
+    <div id="providerInfo" class="provider-info"></div>
+  </div>
+  
+  <div class="form-group">
+    <label for="apiKey">API Key / Endpoint:</label>
+    <input type="password" id="apiKey" placeholder="API key veya endpoint girin">
+    <div class="auto-save-indicator">💾 Değişiklikler otomatik kaydedilir</div>
+  </div>
+  
+  <button id="saveBtn">Kaydet</button>
+  
+  <div id="status"></div>
+  
+  <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+  
+  <div class="form-group">
+    <h3 style="margin-top: 0; color: #667eea; font-size: 16px;">Analiz İşlemleri</h3>
+    <p style="font-size: 12px; color: #666; margin-bottom: 12px;">
+      Aktif sayfadaki içeriği analiz etmek için butonlara tıklayın.
+    </p>
+    
+    <button id="analyzeTestCaseBtn" class="action-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin-bottom: 8px;">
+      📋 Analiz Et
+    </button>
+    
+    <button id="createTestPlanBtn" class="action-btn" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+      📝 Test Planı Oluştur
+    </button>
+  </div>
+  
+  <div id="analysisStatus" class="status" style="display: none;"></div>
+  <div id="analysisResults" style="margin-top: 12px; max-height: 300px; overflow-y: auto; display: none;"></div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
+
