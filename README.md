@@ -6,7 +6,7 @@
 
 ## 📺 Demo Video
 
-https://user-images.githubusercontent.com/images/Test-San-Extension.mov
+![Test-San Demo](./demo.gif)
 
 *Watch how Test-San analyzes test cases, generates test plans, and improves your QA workflow with AI assistance.*
 
